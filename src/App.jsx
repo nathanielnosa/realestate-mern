@@ -1,8 +1,9 @@
-
+import { Outlet } from "react-router-dom"
 const App = () => {
-  console.log('hellow');
   return (
-    <div className="">App</div>
+    <div>
+      <Outlet />
+    </div>
   )
 }
 
