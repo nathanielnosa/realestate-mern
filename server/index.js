@@ -29,3 +29,14 @@ app.listen(PORT, () => console.log(`server running on port: ${PORT}`))
 // get
 app.use('/server/user', userRouter)
 app.use('/server/auth', authRouter)
+
+// middleware for handling messages
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500
+    const message = err.message || "Internal Server Error"
+    return res.status(statusCode).json({
+        success: false,
+        statusCode,
+        message
+    })
+})
