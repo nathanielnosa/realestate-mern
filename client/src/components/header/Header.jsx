@@ -4,7 +4,7 @@ import { HEADER_LINKS } from "./headerLink";
 import { Link } from "react-router-dom";
 const Header = () => {
     return (
-        <header id="header">
+        <header id="header" className="fixed top-0 left-0 right-0">
             <div className="bg-[#f2f2f3] dark:bg-[#000] h-[10vh]">
                 <div className="container mx-auto h-full flex flex-row items-center justify-between gap-4">
                     {/* logo */}
