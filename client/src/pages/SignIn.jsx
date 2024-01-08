@@ -3,8 +3,8 @@ import { Link } from "react-router-dom"
 const SignIn = () => {
     return (
         <main className="bg-[#fcfcfd] dark:bg-[#111111] h-[screen] overflow-y-auto">
-            <div id="signin" className="">
-                <div className="rounded-md max-w-[40vw] my-[7rem] mx-auto bg-[#f2f2f3] dark:bg-[#000]">
+            <div id="signin" className="px-4">
+                <div className="rounded-md w-[100%] md:max-w-[40vw] my-[7rem] mx-auto bg-[#f2f2f3] dark:bg-[#000]">
                     <div className="text-center my-2">
                         <h3 className="text-[2.5rem] font-extrabold text-[#000037] dark:text-white">Log In</h3>
                         <p className="text-[1.1rem]  text-[#8a8a8a] my-3 font-bold dark:text-white">Keep Connected With Us</p>
