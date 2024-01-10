@@ -57,11 +57,11 @@ const SignUp = () => {
                             <div className="my-4 h-[8vh] rounded-tl-lg rounded-br-lg bg-[#fff] dark:bg-[#111111]">
                                 <input type="password" className="h-full w-full bg-transparent px-[1rem] focus:outline-none placeholder:text-[#8a8a8a] dark:placeholder:text-[#fff]  placeholder:text-[1.3rem] text-[1.2rem]  text-[#8a8a8a] dark:text-[#fff]" placeholder="Password" name="password" value={data.password} onChange={handleOnChange} />
                             </div>
-                            <div className="flex items-center justify-center text-[1.2rem] font-medium my-4 h-[8vh] rounded-tl-lg rounded-br-lg bg-[#000037] text-[#fff] dark:bg-[#13132e]">
-                                <button type="submit" className="w-full h-full"> Register</button>
+                            <div className="flex items-center justify-center text-[1.2rem] font-medium my-4 h-[8vh] text-[#fff] ">
+                                <button type="submit" className="w-full h-full rounded-tl-lg  rounded-br-lg bg-[#000037] dark:bg-[#13132e] hover:bg-[#20204d] disabled:opacity-80 "> Register</button>
                             </div>
-                            <div className="flex items-center justify-center text-[1.2rem] font-medium my-4 h-[8vh] rounded-tl-lg rounded-br-lg bg-[#d5423a] text-[#fff] dark:bg-[#13132e]">
-                                <button type="submit" className="w-full h-full"> Continue With Google</button>
+                            <div className="flex items-center justify-center text-[1.2rem] font-medium my-4 h-[8vh] text-[#fff] ">
+                                <button type="submit" className="w-full h-full rounded-tl-lg rounded-br-lg bg-[#d5423a] dark:bg-[#13132e]"> Continue With Google</button>
                             </div>
 
                         </form>
