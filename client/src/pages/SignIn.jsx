@@ -1,8 +1,9 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import image from '../assets/signup/house.avif'
+import image from '../assets/signup/house.jpg'
 import { useDispatch, useSelector } from 'react-redux'
 import { signInSuccess, signInFailure, signInStart } from "../redux/user/userSlice";
+import OAuth from "../components/oauthBtn/OAuth";
 
 const SignIn = () => {
     const loaderStyle = (<div className="flex items-center justify-center"><div
@@ -81,9 +82,7 @@ const SignIn = () => {
                             <div className="flex items-center justify-center text-[1.2rem] font-medium my-4 h-[8vh] text-[#fff] ">
                                 <button disabled={loading} type="submit" className="w-full h-full rounded-tl-lg  rounded-br-lg bg-[#000037] dark:bg-[#13132e] hover:bg-[#20204d] disabled:opacity-80 ">{loading ? loaderStyle : "Login"}</button>
                             </div>
-                            <div className="flex items-center justify-center text-[1.2rem] font-medium my-4 h-[8vh] text-[#fff] ">
-                                <button type="submit" className="w-full h-full rounded-tl-lg rounded-br-lg bg-[#d5423a] dark:bg-[#13132e]"> Continue With Google</button>
-                            </div>
+                            <OAuth />
                             <div className="flex items-end justify-between my-4">
                                 <p>
                                     <input type="checkbox" className="" /> Remember me

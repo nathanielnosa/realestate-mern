@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
-import image from '../assets/signup/house.avif'
+import image from '../assets/signup/house.jpg'
+import OAuth from "../components/oauthBtn/OAuth";
 const SignUp = () => {
     const loaderStyle = (<div className="flex items-center justify-center"><div
         className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
@@ -13,7 +14,7 @@ const SignUp = () => {
         email: "",
         password: ""
     })
-    // erro & loader
+    // error & loader
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
 
@@ -83,9 +84,7 @@ const SignUp = () => {
                             <div className="flex items-center justify-center text-[1.2rem] font-medium my-4 h-[8vh] text-[#fff] ">
                                 <button disabled={loading} type="submit" className="w-full h-full rounded-tl-lg  rounded-br-lg bg-[#000037] dark:bg-[#13132e] hover:bg-[#20204d] disabled:opacity-80 ">{loading ? loaderStyle : "Register"}</button>
                             </div>
-                            <div className="flex items-center justify-center text-[1.2rem] font-medium my-4 h-[8vh] text-[#fff] ">
-                                <button type="submit" className="w-full h-full rounded-tl-lg rounded-br-lg bg-[#d5423a] dark:bg-[#13132e]"> Continue With Google</button>
-                            </div>
+                            <OAuth />
 
                         </form>
                         <p className="font-semibold py-4 dark:text-[#fff]">Have an Account? <Link to={"/sign-in"} >Log In</Link></p>
