@@ -1,10 +1,14 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from 'react-redux'
+import { signInSuccess, signInFailure, signInStart } from "../redux/user/userSlice"
 
 const SignIn = () => {
     const loaderStyle = (<div className="flex items-center justify-center"><div
         className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
         role="status"> </div><span className="mx-2">Loading</span></div>)
+
+    const dispatch = useDispatch()
 
     const navigate = useNavigate()
     // get data
@@ -14,10 +18,7 @@ const SignIn = () => {
         password: ""
     })
     // erro & loader
-    const [error, setError] = useState(null)
-    const [loading, setLoading] = useState(false)
-
-
+    const { error, loading } = useSelector((state) => state.user)
     const handleOnChange = (e) => {
         const { name, value } = e.target;
         setData((data) => {
@@ -32,7 +33,7 @@ const SignIn = () => {
     const handleOnSubmit = async (e) => {
         e.preventDefault();
 
-        setLoading(true);
+        dispatch(signInStart());
         const { email, password } = data
         if (email && password) {
             const fetchData = await fetch('/server/auth/signin', {
@@ -42,24 +43,21 @@ const SignIn = () => {
             })
             const res = await fetchData.json()
             if (res.success === false) {
-                setLoading(false)
-                setError(res.message)
+                dispatch(signInFailure(res.message))
                 setData({
                     email: "",
                     password: ""
                 });
                 return;
             }
-            setLoading(false)
-            setError(null)
+            dispatch(signInSuccess(res))
             setData({
                 email: "",
                 password: ""
             });
             navigate("/profile")
         } else {
-            setLoading(false);
-            setError("Fields cannot be empty");
+            dispatch(signInFailure("Fields cannot be empty !"))
         }
     }
     return (
