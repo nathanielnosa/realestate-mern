@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
-
+import image from '../assets/signup/house.avif'
 const SignUp = () => {
     const loaderStyle = (<div className="flex items-center justify-center"><div
         className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
@@ -62,8 +62,8 @@ const SignUp = () => {
 
     return (
         <main className="bg-[#fcfcfd] dark:bg-[#111111] h-[screen] px-3 overflow-y-auto">
-            <div id="signup" className="">
-                <div className="rounded-md w-[100%] md:max-w-[40vw] my-[5.23rem] mx-auto bg-[#f2f2f3] dark:bg-[#000]">
+            <div id="signup" className="flex rounded-md overflow-hidden  my-[5.23rem] w-[70vw] mx-auto">
+                <div className="rounded-md w-[50%] md:max-w-[40vw] mx-auto bg-[#f2f2f3] dark:bg-[#000]">
                     <div className="text-center my-2">
                         <h3 className="text-[2.5rem] font-extrabold text-[#000037] dark:text-white">Register</h3>
                         <p className="text-[1.1rem]  text-[#8a8a8a] my-3 font-bold dark:text-white">Get Start With Us</p>
@@ -90,6 +90,9 @@ const SignUp = () => {
                         </form>
                         <p className="font-semibold py-4 dark:text-[#fff]">Have an Account? <Link to={"/sign-in"} >Log In</Link></p>
                     </div>
+                </div>
+                <div className="img w-[50%] bg-[#000]">
+                    <img src={image} alt="signup image" className="h-full opacity-[.5]" />
                 </div>
             </div>
         </main>

@@ -1,7 +1,8 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import image from '../assets/signup/house.avif'
 import { useDispatch, useSelector } from 'react-redux'
-import { signInSuccess, signInFailure, signInStart } from "../redux/user/userSlice"
+import { signInSuccess, signInFailure, signInStart } from "../redux/user/userSlice";
 
 const SignIn = () => {
     const loaderStyle = (<div className="flex items-center justify-center"><div
@@ -61,9 +62,9 @@ const SignIn = () => {
         }
     }
     return (
-        <main className="bg-[#fcfcfd] dark:bg-[#111111] h-[screen] overflow-y-auto">
-            <div id="signin" className="px-4">
-                <div className="rounded-md w-[100%] md:max-w-[40vw] my-[7rem] mx-auto bg-[#f2f2f3] dark:bg-[#000]">
+        <main className="bg-[#fcfcfd] dark:bg-[rgb(17,17,17)] h-[screen] overflow-y-auto">
+            <div id="signin" className="flex rounded-md overflow-hidden border  my-[7rem] w-[70vw] mx-auto">
+                <div className="rounded-md w-[50%] md:max-w-[40vw]  mx-auto bg-[#f2f2f3] dark:bg-[#000]">
                     <div className="text-center my-2">
                         <h3 className="text-[2.5rem] font-extrabold text-[#000037] dark:text-white">Log In</h3>
                         <p className="text-[1.1rem]  text-[#8a8a8a] my-3 font-bold dark:text-white">Keep Connected With Us</p>
@@ -95,6 +96,9 @@ const SignIn = () => {
                         </form>
                         <p className="font-semibold py-4 dark:text-[#fff]">Don&apos;t Have an Account? <Link to={"/sign-up"} >Create One</Link></p>
                     </div>
+                </div>
+                <div className="img w-[50%] bg-[#000]">
+                    <img src={image} alt="signup image" className="h-full opacity-[.5]" />
                 </div>
             </div>
         </main>
