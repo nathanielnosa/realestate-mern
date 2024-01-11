@@ -1,6 +1,67 @@
-import { Link } from "react-router-dom"
+import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 
 const SignIn = () => {
+    const loaderStyle = (<div className="flex items-center justify-center"><div
+        className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+        role="status"> </div><span className="mx-2">Loading</span></div>)
+
+    const navigate = useNavigate()
+    // get data
+    const [data, setData] = useState({
+        username: "",
+        email: "",
+        password: ""
+    })
+    // erro & loader
+    const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(false)
+
+
+    const handleOnChange = (e) => {
+        const { name, value } = e.target;
+        setData((data) => {
+            return {
+                ...data,
+                [name]: value
+            }
+        })
+    }
+
+
+    const handleOnSubmit = async (e) => {
+        e.preventDefault();
+
+        setLoading(true);
+        const { email, password } = data
+        if (email && password) {
+            const fetchData = await fetch('/server/auth/signin', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            const res = await fetchData.json()
+            if (res.success === false) {
+                setLoading(false)
+                setError(res.message)
+                setData({
+                    email: "",
+                    password: ""
+                });
+                return;
+            }
+            setLoading(false)
+            setError(null)
+            setData({
+                email: "",
+                password: ""
+            });
+            navigate("/profile")
+        } else {
+            setLoading(false);
+            setError("Fields cannot be empty");
+        }
+    }
     return (
         <main className="bg-[#fcfcfd] dark:bg-[#111111] h-[screen] overflow-y-auto">
             <div id="signin" className="px-4">
@@ -10,15 +71,19 @@ const SignIn = () => {
                         <p className="text-[1.1rem]  text-[#8a8a8a] my-3 font-bold dark:text-white">Keep Connected With Us</p>
                     </div>
                     <div className="px-6 my-[2.7rem]">
-                        <form >
+                        {error && <p className="text-[#ff5e49] font-semibold text-[.95rem] capitalize">*{error}</p>}
+                        <form onSubmit={handleOnSubmit}>
                             <div className="my-4 h-[8vh] rounded-tl-lg rounded-br-lg bg-[#fff] dark:bg-[#111111]">
-                                <input type="text" className="h-full w-full bg-transparent px-[1rem] focus:outline-none placeholder:text-[#8a8a8a] dark:placeholder:text-[#fff]  placeholder:text-[1.3rem] text-[1.2rem]  text-[#8a8a8a] dark:text-[#fff]" placeholder="Username" />
+                                <input type="email" className="h-full w-full bg-transparent px-[1rem] focus:outline-none placeholder:text-[#8a8a8a] dark:placeholder:text-[#fff]  placeholder:text-[1.3rem] text-[1.2rem]  text-[#8a8a8a] dark:text-[#fff]" placeholder="Email" name="email" value={data.email} onChange={handleOnChange} />
                             </div>
                             <div className="my-4 h-[8vh] rounded-tl-lg rounded-br-lg bg-[#fff] dark:bg-[#111111]">
-                                <input type="password" className="h-full w-full bg-transparent px-[1rem] focus:outline-none placeholder:text-[#8a8a8a] dark:placeholder:text-[#fff]  placeholder:text-[1.3rem] text-[1.2rem]  text-[#8a8a8a] dark:text-[#fff]" placeholder="Password" />
+                                <input type="password" className="h-full w-full bg-transparent px-[1rem] focus:outline-none placeholder:text-[#8a8a8a] dark:placeholder:text-[#fff]  placeholder:text-[1.3rem] text-[1.2rem]  text-[#8a8a8a] dark:text-[#fff]" placeholder="Password" name="password" value={data.password} onChange={handleOnChange} />
                             </div>
-                            <div className="flex items-center justify-center text-[1.2rem] font-medium my-4 h-[8vh] rounded-tl-lg rounded-br-lg bg-[#000037] text-[#fff] dark:bg-[#13132e]">
-                                <button type="submit" className="w-full h-full"> Login</button>
+                            <div className="flex items-center justify-center text-[1.2rem] font-medium my-4 h-[8vh] text-[#fff] ">
+                                <button disabled={loading} type="submit" className="w-full h-full rounded-tl-lg  rounded-br-lg bg-[#000037] dark:bg-[#13132e] hover:bg-[#20204d] disabled:opacity-80 ">{loading ? loaderStyle : "Login"}</button>
+                            </div>
+                            <div className="flex items-center justify-center text-[1.2rem] font-medium my-4 h-[8vh] text-[#fff] ">
+                                <button type="submit" className="w-full h-full rounded-tl-lg rounded-br-lg bg-[#d5423a] dark:bg-[#13132e]"> Continue With Google</button>
                             </div>
                             <div className="flex items-end justify-between my-4">
                                 <p>

@@ -58,10 +58,8 @@ const SignUp = () => {
             setLoading(false);
             setError("Fields cannot be empty");
         }
-
-
-
     }
+
     return (
         <main className="bg-[#fcfcfd] dark:bg-[#111111] h-[screen] px-3 overflow-y-auto">
             <div id="signup" className="">

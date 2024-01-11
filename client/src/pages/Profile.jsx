@@ -1,6 +1,8 @@
 const Profile = () => {
     return (
-        <div>Profile</div>
+        <section className="py-[3rem]">
+            <div className="my-5">Profile</div>
+        </section>
     )
 }
 
