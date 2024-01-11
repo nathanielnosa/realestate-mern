@@ -2,6 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
 
 const SignUp = () => {
+    const loaderStyle = (<div className="flex items-center justify-center"><div
+        className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+        role="status"> </div><span className="mx-2">Loading</span></div>)
+
     const navigate = useNavigate()
     // get data
     const [data, setData] = useState({
@@ -9,6 +13,10 @@ const SignUp = () => {
         email: "",
         password: ""
     })
+    // erro & loader
+    const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(false)
+
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;
@@ -23,6 +31,8 @@ const SignUp = () => {
 
     const handleOnSubmit = async (e) => {
         e.preventDefault();
+
+        setLoading(true);
         const { username, email, password } = data
         if (username && email && password) {
             const fetchData = await fetch('/server/auth/signup', {
@@ -31,11 +41,25 @@ const SignUp = () => {
                 body: JSON.stringify(data)
             })
             const res = await fetchData.json()
-            console.log(res);
-            navigate('/sign-in')
+            if (res.success === false) {
+                setLoading(false)
+                setError(res.message)
+                return;
+            }
+            setLoading(false)
+            setError(null)
+            setData({
+                username: "",
+                email: "",
+                password: ""
+            });
+            navigate("/sign-in")
         } else {
-            console.log("Fields cannot be empty");
+            setLoading(false);
+            setError("Fields cannot be empty");
         }
+
+
 
     }
     return (
@@ -47,6 +71,7 @@ const SignUp = () => {
                         <p className="text-[1.1rem]  text-[#8a8a8a] my-3 font-bold dark:text-white">Get Start With Us</p>
                     </div>
                     <div className="px-6 my-[2.7rem]">
+                        {error && <p className="text-[#ff5e49] font-semibold text-[.95rem] capitalize">*{error}</p>}
                         <form onSubmit={handleOnSubmit}>
                             <div className="my-4 h-[8vh] rounded-tl-lg rounded-br-lg bg-[#fff] dark:bg-[#111111]">
                                 <input type="text" className="h-full w-full bg-transparent px-[1rem] focus:outline-none placeholder:text-[#8a8a8a] dark:placeholder:text-[#fff]  placeholder:text-[1.3rem] text-[1.2rem]  text-[#8a8a8a] dark:text-[#fff]" placeholder="Username" name="username" value={data.username} onChange={handleOnChange} />
@@ -58,7 +83,7 @@ const SignUp = () => {
                                 <input type="password" className="h-full w-full bg-transparent px-[1rem] focus:outline-none placeholder:text-[#8a8a8a] dark:placeholder:text-[#fff]  placeholder:text-[1.3rem] text-[1.2rem]  text-[#8a8a8a] dark:text-[#fff]" placeholder="Password" name="password" value={data.password} onChange={handleOnChange} />
                             </div>
                             <div className="flex items-center justify-center text-[1.2rem] font-medium my-4 h-[8vh] text-[#fff] ">
-                                <button type="submit" className="w-full h-full rounded-tl-lg  rounded-br-lg bg-[#000037] dark:bg-[#13132e] hover:bg-[#20204d] disabled:opacity-80 "> Register</button>
+                                <button disabled={loading} type="submit" className="w-full h-full rounded-tl-lg  rounded-br-lg bg-[#000037] dark:bg-[#13132e] hover:bg-[#20204d] disabled:opacity-80 ">{loading ? loaderStyle : "Register"}</button>
                             </div>
                             <div className="flex items-center justify-center text-[1.2rem] font-medium my-4 h-[8vh] text-[#fff] ">
                                 <button type="submit" className="w-full h-full rounded-tl-lg rounded-br-lg bg-[#d5423a] dark:bg-[#13132e]"> Continue With Google</button>
