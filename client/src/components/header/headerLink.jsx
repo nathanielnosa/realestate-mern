@@ -15,6 +15,13 @@ export const HEADER_LINKS = [
         key: 3,
         path: "/sign-in",
         label: "Sign In",
-        extra: ""
+        extraS: "hidden"
+    },
+    {
+        key: 4,
+        path: "/profile",
+        label: "Profile",
+        extraS: "hidden",
+        extraSP: "hidden"
     },
 ]

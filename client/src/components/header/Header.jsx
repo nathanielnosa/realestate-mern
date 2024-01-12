@@ -2,7 +2,11 @@ import SwitcherBtn from "../../utility/SwitcherBtn"
 import { FaSearch } from "react-icons/fa";
 import { HEADER_LINKS } from "./headerLink";
 import { Link } from "react-router-dom";
+import { useSelector } from 'react-redux'
 const Header = () => {
+    const { currentUser } = useSelector((state) => state.user)
+    console.log(currentUser);
+
     return (
         <header id="header" className="fixed top-0 left-0 right-0 z-[100]">
             <div className="bg-[#f2f2f3] dark:bg-[#000] h-[10vh]">
@@ -34,17 +38,48 @@ const Header = () => {
 
                     {/* links */}
                     <div className="">
-                        <ul className="flex gap-4 ">
+                        <ul className="flex gap-4 items-center">
+
                             {
-                                HEADER_LINKS.map(({ key, label, path, extra }) => (
+                                HEADER_LINKS.map(({ key, label, path, extra, extraS, extraSP }) => (
                                     <li key={key} className={extra + " hover:font-extrabold md:inline transition-all ease-in-out duration-200 text-[#000037] dark:text-[#fff] font-medium"}>
                                         <Link to={path}>
-                                            {label}
+                                            {
+                                                currentUser ? (
+                                                    key === 3 ? (
+                                                        <div className={extraS}>
+                                                            {label}
+                                                        </div>
+                                                    ) : key === 4 ? (
+                                                        <img className="w-9 h-9 object-cover rounded-full border border-[#000037]" src={currentUser.avatar} alt="profile" />
+                                                    ) : (
+                                                        label
+                                                    )
+                                                ) :
+                                                    key === 1 | 2 | 3 ? (<div className={extraSP}>
+                                                        {label}
+                                                    </div>
+
+                                                    ) : null
+                                            }
+
+
                                         </Link>
                                     </li>
                                 ))
                             }
+                            {/* <Link to={'/profile'}>
+                                {
+                                    currentUser
+                                        ?
+                                        (
+                                            <img className="w-9 h-9 object-cover rounded-full border border-[#000037]" src={currentUser.avatar} alt="profile" />
 
+                                        )
+                                        : " "
+                                }
+
+                            </Link> */}
                         </ul>
                     </div>
 
@@ -52,7 +87,7 @@ const Header = () => {
                     <SwitcherBtn />
                 </div>
             </div>
-        </header>
+        </header >
     )
 }
 

@@ -57,7 +57,7 @@ const SignIn = () => {
                 email: "",
                 password: ""
             });
-            navigate("/profile")
+            navigate("/")
         } else {
             dispatch(signInFailure("Fields cannot be empty !"))
         }
