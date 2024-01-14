@@ -12,6 +12,8 @@ import SignUp from "../pages/SignUp";
 import Profile from "../pages/Profile";
 import SignIn from "../pages/SignIn";
 import PrivatePage from "../components/privateRoute/PrivatePage";
+import UpdateProfile from "../pages/UpdateProfile";
+import Settings from "../pages/Settings";
 
 
 const RouterSetup = () => {
@@ -24,7 +26,11 @@ const RouterSetup = () => {
                 <Route path="/about" element={<About />} />
                 <Route element={<PrivatePage />}>
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/update-profile" element={<UpdateProfile />} />
+                    <Route path="//settings" element={<Settings />} />
+
                 </Route>
+
 
             </Route>
         )
