@@ -1,6 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 
+import cookieParser from 'cookie-parser';
+
 import dotenv from 'dotenv';
 dotenv.config()
 
@@ -19,6 +21,8 @@ mongoose.connect(process.env.MONGODB_URL).then(() => {
 const app = express()
 // to allow us pass json
 app.use(express.json())
+// to allow us use cookie
+app.use(cookieParser())
 
 
 // port number
