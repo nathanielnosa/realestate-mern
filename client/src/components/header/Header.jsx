@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux'
 const Header = () => {
     const { currentUser } = useSelector((state) => state.user)
-    console.log(currentUser);
 
     return (
         <header id="header" className="fixed top-0 left-0 right-0 z-[100]">

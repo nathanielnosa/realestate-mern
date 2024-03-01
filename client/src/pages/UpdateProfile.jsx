@@ -1,11 +1,11 @@
 import { FaUserCircle } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import { useEffect, useState, useRef } from 'react';
 import { app } from '../firebase/firebase';
-
+import { updateUserStart, updateUserFailure, updateUserSuccess } from '../redux/user/userSlice';
 const UpdateProfile = () => {
-  const { currentUser } = useSelector((state) => state.user)
+  const { currentUser, error, loading } = useSelector((state) => state.user)
   const fileRef = useRef(null)
   const [file, setFile] = useState(undefined)
 
@@ -13,8 +13,7 @@ const UpdateProfile = () => {
   const [fileError, setFileError] = useState(false)
   const [formData, setFormData] = useState({})
 
-  console.log(filePercent);
-
+  const dispatch = useDispatch()
   useEffect(() => {
     if (file) {
       handleProfileImage(file)
@@ -40,7 +39,31 @@ const UpdateProfile = () => {
     )
   };
 
+  const handleUpdate = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value })
+  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(updateUserStart());
+      const fetchData = await fetch(`/server/user/update-user/${currentUser._id}33`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
+      const res = await fetchData.json()
+      if (res.success === false) {
+        dispatch(updateUserFailure(res.message))
+      }
+      dispatch(updateUserSuccess(res))
 
+    } catch (error) {
+      dispatch(updateUserFailure(error.message))
+    }
+
+  }
   return (
     <section id="profile" className="py-8 bg-[#fcfcfd] dark:bg-[#000] h-screen">
       <div className="text-center">
@@ -80,21 +103,21 @@ const UpdateProfile = () => {
             }
           </div>
           <div className="w-full">
-            <form action="">
+            <form onSubmit={handleSubmit} >
               <div className="form-group my-2">
-                <input type="text" name='username' className="rounded-md w-[80%] h-[6vh] border border-[#000037] placeholder:text-[1.3rem] px-3 bg-transparent focus:outline-none dark:border-[#fff] dark:text-[#fff]" placeholder='Username' />
+                <input type="text" id="username" defaultValue={currentUser.username} onChange={handleUpdate} name='username' className="rounded-md w-[80%] h-[6vh] border border-[#000037] placeholder:text-[1.3rem] px-3 bg-transparent focus:outline-none dark:border-[#fff] dark:text-[#fff]" placeholder='Username' />
               </div>
               <div className="form-group my-2">
-                <input type="email" name='email' className="rounded-md w-[80%] h-[6vh] border border-[#000037] placeholder:text-[1.3rem] px-3 bg-transparent focus:outline-none dark:border-[#fff] dark:text-[#fff]" placeholder='Email' />
+                <input type="email" id="email" defaultValue={currentUser.email} onChange={handleUpdate} name='email' className="rounded-md w-[80%] h-[6vh] border border-[#000037] placeholder:text-[1.3rem] px-3 bg-transparent focus:outline-none dark:border-[#fff] dark:text-[#fff]" placeholder='Email' />
               </div>
               <div className="form-group my-2">
-                <input type="password" name='password' className="rounded-md w-[80%] h-[6vh] border border-[#000037] placeholder:text-[1.3rem] px-3 bg-transparent focus:outline-none dark:border-[#fff] dark:text-[#fff]" placeholder='Password' />
-              </div>
-
-              <div className="form-group my-2">
-                <input type="submit" value="Submit" className="rounded-md w-[80%] h-[6vh]  bg-[#000037] placeholder:text-[1.3rem] px-3 text-[#fff] focus:outline-none dark:border-[#fff] dark:text-[#fff] cursor-pointer" />
+                <input type="password" id="password" onChange={handleUpdate} name='password' className="rounded-md w-[80%] h-[6vh] border border-[#000037] placeholder:text-[1.3rem] px-3 bg-transparent focus:outline-none dark:border-[#fff] dark:text-[#fff]" placeholder='Password' />
               </div>
 
+              <div className="form-group my-2">
+                <input disabled={loading && "disabled"} type="submit" value={loading ? 'loading...' : "Submit"} className="rounded-md w-[80%] h-[6vh]  bg-[#000037] placeholder:text-[1.3rem] px-3 text-[#fff] focus:outline-none dark:border-[#fff] dark:text-[#fff] cursor-pointer" />
+              </div>
+              <p className='text-[red]'>{error ? error : ''}</p>
 
             </form>
           </div>

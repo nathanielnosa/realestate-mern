@@ -1,16 +1,16 @@
-import userModel from "../models/user.model.js";
-import { errorHandler } from "../utils/error.js"
-import bcryptjs from 'bcryptjs';
+const userModel = require("../models/user.model.js");
+const { errorHandler } = require("../utils/error.js")
+const bcryptjs = require('bcryptjs');
 
-export const test = (req, res) => {
+const test = (req, res) => {
     res.json({
         message: 'hello world'
     })
 }
 
 
-export const updateUser = async (req, res, next) => {
-    if (req.user.id !== req.params.id) return next(errorHandler(404, "You cant update another account"))
+const updateUser = async (req, res, next) => {
+    if (req.user.id !== req.params.id) return next(errorHandler(404, "You can't update another account"))
     console.log(req.user.id);
     try {
         if (req.body.password) {
@@ -33,3 +33,6 @@ export const updateUser = async (req, res, next) => {
         next(error)
     }
 }
+
+
+module.exports = { updateUser, test }

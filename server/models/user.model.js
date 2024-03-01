@@ -1,7 +1,8 @@
-import { mongoose } from "mongoose";
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema
 
 // schema
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
     username: {
         type: String,
         required: true,
@@ -27,4 +28,4 @@ const userSchema = new mongoose.Schema({
 
 // model
 const userModel = mongoose.model('User', userSchema);
-export default userModel;
+module.exports = userModel;

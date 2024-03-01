@@ -1,11 +1,11 @@
-import userModel from "../models/user.model.js";
-import { errorHandler } from "../utils/error.js";
-import bcryptjs from "bcryptjs"
-import jwt from "jsonwebtoken";
+const userModel = require("../models/user.model.js");
+const { errorHandler } = require("../utils/error.js");
+const bcryptjs = require("bcryptjs")
+const jwt = require("jsonwebtoken");
 
 
 // sign up controller
-export const signup = async (req, res, next) => {
+const signup = async (req, res, next) => {
     const { username, email, password } = req.body;
     const hashPwd = bcryptjs.hashSync(password, 10)
     const insertUser = new userModel({ username, email, password: hashPwd });
@@ -18,7 +18,7 @@ export const signup = async (req, res, next) => {
 }
 
 // sign in controller
-export const signin = async (req, res, next) => {
+const signin = async (req, res, next) => {
     const { email, password } = req.body;
     try {
         const validEmail = await userModel.findOne({ email })
@@ -39,7 +39,7 @@ export const signin = async (req, res, next) => {
 }
 
 // google oauth controller
-export const google = async (req, res, next) => {
+const google = async (req, res, next) => {
     try {
         const userCheck = await userModel.findOne({ email: req.body.email })
         if (userCheck) {
@@ -71,3 +71,5 @@ export const google = async (req, res, next) => {
         next(error)
     }
 }
+
+module.exports = { signup, signin, google }

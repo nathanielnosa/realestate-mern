@@ -1,7 +1,7 @@
-import { errorHandler } from "./error.js";
-import jwt from 'jsonwebtoken'
+const { errorHandler } = require("./error.js");
+const jwt = require('jsonwebtoken')
 
-export const verifyToken = (req, res, next) => {
+const verifyToken = (req, res, next) => {
   // install cookie-parser
   const token = req.cookies.access_token;
   if (!token) return next(errorHandler(404, 'Unauthorized user!'));
@@ -12,3 +12,5 @@ export const verifyToken = (req, res, next) => {
     next();
   })
 };
+
+module.exports = { verifyToken }

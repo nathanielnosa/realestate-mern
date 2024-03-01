@@ -1,11 +1,11 @@
-import express from 'express';
-import { google, signin, signup } from '../controllers/auth.controller.js';
+const express = require('express');
+const authController = require('../controllers/auth.controller.js');
 
 const router = express.Router()
 
-router.post('/signup', signup)
-router.post('/signin', signin)
-router.post('/google', google)
+router.post('/signup', authController.signup)
+router.post('/signin', authController.signin)
+router.post('/google', authController.google)
 
 
-export default router
+module.exports = router

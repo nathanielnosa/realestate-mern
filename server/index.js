@@ -1,22 +1,11 @@
-import express from 'express';
-import mongoose from 'mongoose';
-
-import cookieParser from 'cookie-parser';
-
-import dotenv from 'dotenv';
-dotenv.config()
-
-// routers
-import userRouter from "./routes/user.routes.js"
-import authRouter from "./routes/auth.routes.js"
+require('dotenv').config()
+const express = require('express')
+const mongoose = require('mongoose')
+const cookieParser = require('cookie-parser');
+const connectDB = require('./config/dbCon.js')
 
 
-// connect to mongodb
-mongoose.connect(process.env.MONGODB_URL).then(() => {
-    console.log('Connected to MongoDB successfully');
-}).catch((err) => {
-    console.log(err);
-})
+
 // making api
 const app = express()
 // to allow us pass json
@@ -24,15 +13,12 @@ app.use(express.json())
 // to allow us use cookie
 app.use(cookieParser())
 
+connectDB()
 
-// port number
-const PORT = process.env.PORT || 4000
+// routers
+app.use('/server/user', require("./routes/user.routes.js"))
+app.use('/server/auth', require("./routes/auth.routes.js"))
 
-app.listen(PORT, () => console.log(`server running on port: ${PORT}`))
-
-// get
-app.use('/server/user', userRouter)
-app.use('/server/auth', authRouter)
 
 // middleware for handling messages
 app.use((err, req, res, next) => {
@@ -43,4 +29,12 @@ app.use((err, req, res, next) => {
         statusCode,
         message
     })
+})
+
+
+// port number
+const PORT = process.env.PORT || 4000
+mongoose.connection.once('open', () => {
+    console.log('Connected to MongoDB successfully');
+    app.listen(PORT, () => console.log(`server running on port: ${PORT}`))
 })
